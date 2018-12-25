@@ -1,16 +1,13 @@
-[
-  {
+[{
     "modid": "justthetips",
     "name": "JustTheTips",
-    "description": "Adds some tips to loading screens.",
     "version": "${version}",
-    "mcversion": "${mcversion}",
-    "updateUrl": "",
-    "authorList": ["DeflatedPickle"],
-    "credits": "DeflatedPickle, pau101, TehNut",
+    "description": "Adds some tips to loading screens.",
     "url": "https://github.com/DeflatedPickle/JustTheTips",
+    "authorList": [ "DeflatedPickle", "pau101" ],
+    "credits": "TehNut",
     "logoFile": "logo.png",
-    "screenshots": [],
-    "dependencies": []
-  }
-]
+    "useDependencyInformation": true,
+    "dependencies": [ "forge@[${forgeVersion},)" ],
+    "requiredMods": [ "forge@[${forgeVersion},)" ]
+}]

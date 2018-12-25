@@ -1,39 +1,41 @@
 package com.deflatedpickle.justthetips;
 
-import com.deflatedpickle.justthetips.utils.TipUtil;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.event.FMLInterModComms;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+@Mod(modid = JustTheTips.ID, useMetadata = true)
+public final class JustTheTips {
+    public static final String ID = "justthetips";
 
-@Mod(modid = Reference.MOD_ID, name = Reference.NAME, version = Reference.VERSION, clientSideOnly = true, acceptedMinecraftVersions = Reference.ACCEPTED_VERSIONS, dependencies = "after:*")
-public class JustTheTips {
+    public static final Logger LOGGER = LogManager.getLogger(JustTheTips.ID);
 
-    public static final Logger logger = LogManager.getLogger(Reference.NAME);
-    public static final Random random = new Random();
-
-    public static final List<String> tipList = new ArrayList<>();
-
-    @EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-        TipUtil.loadTips(tipList, new File(event.getModConfigurationDirectory(), "tips.txt"));
+    private static final class Holder {
+        private static final JustTheTips INSTANCE = new JustTheTips();
     }
 
-    @EventHandler
-    public void onImcMessage(FMLInterModComms.IMCEvent event) {
-        for (FMLInterModComms.IMCMessage message : event.getMessages()) {
-            if (!message.isStringMessage())
-                continue;
+    @SidedProxy(
+        clientSide = "com.deflatedpickle.justthetips.client.ClientProxy",
+        serverSide = "com.deflatedpickle.justthetips.server.ServerProxy"
+    )
+    private static Proxy proxy;
 
-            if (message.key.equalsIgnoreCase("add_tip") && !tipList.contains(message.getStringValue()))
-                tipList.add(message.getStringValue());
+    @Mod.EventHandler
+    public void init(final FMLPreInitializationEvent event) {
+        this.requireProxy().init();
+    }
+
+    @Mod.InstanceFactory
+    public static JustTheTips instance() {
+        return JustTheTips.Holder.INSTANCE;
+    }
+
+    private Proxy requireProxy() {
+        if (JustTheTips.proxy == null) {
+            throw new IllegalStateException("Proxy not initialized");
         }
+        return JustTheTips.proxy;
     }
 }
