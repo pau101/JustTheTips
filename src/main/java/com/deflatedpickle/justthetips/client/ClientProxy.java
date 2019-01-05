@@ -1,8 +1,13 @@
 package com.deflatedpickle.justthetips.client;
 
-import com.deflatedpickle.justthetips.*;
 import com.deflatedpickle.justthetips.ForwardingFramebuffer;
 import com.deflatedpickle.justthetips.LoadingScreenWrapper;
+import com.deflatedpickle.justthetips.Proxy;
+import com.deflatedpickle.justthetips.SimpleTip;
+import com.deflatedpickle.justthetips.SimpleTipElementFactory;
+import com.deflatedpickle.justthetips.TipController;
+import com.deflatedpickle.justthetips.TipScreenPredicate;
+import com.deflatedpickle.justthetips.WindowResizeListener;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentString;
@@ -17,6 +22,11 @@ public final class ClientProxy extends Proxy {
     @Override
     public void init() {
         super.init();
+//        try (final AssetsFolder assets = AssetsFolder.create(Loader.instance().getIndexedModList().get(JustTheTips.ID))) {
+//            new PoolLoader().load(assets);
+//        } catch (final IOException e) {
+//            throw new RuntimeException(e);
+//        }
         final MutableInt count = new MutableInt(1);
         final TipController controller = new TipController(
             () -> SimpleTip.create(

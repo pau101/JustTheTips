@@ -46,7 +46,7 @@ public final class TipController {
 
         @Override
         public TipController.DisplayState update() {
-            return new DisplayHoldState(this.layout.create(TipController.this.provider.nextTip()));
+            return new DisplayHoldState(this.layout.create(TipController.this.provider.next()));
         }
 
         @Override
