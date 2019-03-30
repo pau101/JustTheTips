@@ -1,7 +1,10 @@
 package com.deflatedpickle.justthetips.client;
 
+import com.deflatedpickle.justthetips.AssetsFolder;
 import com.deflatedpickle.justthetips.ForwardingFramebuffer;
+import com.deflatedpickle.justthetips.JustTheTips;
 import com.deflatedpickle.justthetips.LoadingScreenWrapper;
+import com.deflatedpickle.justthetips.PoolLoader;
 import com.deflatedpickle.justthetips.Proxy;
 import com.deflatedpickle.justthetips.SimpleTip;
 import com.deflatedpickle.justthetips.SimpleTipElementFactory;
@@ -14,19 +17,22 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 import org.apache.commons.lang3.mutable.MutableInt;
+
+import java.io.IOException;
 
 public final class ClientProxy extends Proxy {
     @Override
     public void init() {
         super.init();
-//        try (final AssetsFolder assets = AssetsFolder.create(Loader.instance().getIndexedModList().get(JustTheTips.ID))) {
-//            new PoolLoader().load(assets);
-//        } catch (final IOException e) {
-//            throw new RuntimeException(e);
-//        }
+        try (final AssetsFolder assets = AssetsFolder.create(Loader.instance().getIndexedModList().get(JustTheTips.ID))) {
+            new PoolLoader().load(assets);
+        } catch (final IOException e) {
+            throw new RuntimeException(e);
+        }
         final MutableInt count = new MutableInt(1);
         final TipController controller = new TipController(
             () -> SimpleTip.create(
